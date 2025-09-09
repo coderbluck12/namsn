@@ -40,7 +40,7 @@ const Navbar = () => {
             <Link href={"/auth/login"} className="px-6 py-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all duration-300 font-medium">
               Login
             </Link>
-            <Link href={"/auth/register"} className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 font-medium">
+            <Link href={"/auth/register"} className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 font-medium mr-2">
               Get Started
             </Link>
           </div>
