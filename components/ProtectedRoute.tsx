@@ -20,7 +20,7 @@ export default function ProtectedRoute({
     if (!loading) {
       if (!currentUser) {
         // User is not logged in, redirect to login
-        router.push('/login');
+        router.push('/auth/login');
       } else if (adminOnly && !isAdmin) {
         // Check if user is admin (you'll need to implement this check)
         // For now, we'll just check a custom claim or user role in Firestore
