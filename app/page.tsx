@@ -63,7 +63,7 @@ const Hero = () => (
         className="space-y-8"
       >
         {/* Main Heading */}
-        <h1 className="text-6xl md:text-6xl lg:text-6xl font-bold text-gray-900 leading-tight">
+        <h1 className="text-4xl md:text-6xl lg:text-6xl font-bold text-gray-900 leading-tight">
           The Home{" "}
           <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">
             Of Future
