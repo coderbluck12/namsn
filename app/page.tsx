@@ -549,7 +549,7 @@ const Contact = () => (
             </div>
             <div>
               <h3 className="text-lg font-semibold">Email Us</h3>
-              <p className="text-gray-300">contact@namsn.com</p>
+              <p className="text-gray-300">contact@namsnfunaab.com</p>
             </div>
           </div>
           
@@ -652,9 +652,9 @@ const Footer = () => (
         <div>
           <h4 className="text-lg font-semibold mb-4">Contact</h4>
           <div className="space-y-2 text-gray-400">
-            <p>support@edumanagepro.com</p>
-            <p>+1 (555) 123-4567</p>
-            <p>123 Education St, Learning City, LC 12345</p>
+            <p>support@namsnfunaab.com</p>
+            <p>+234 812 345 6789</p>
+            <p>123 Education Ave, Academic City</p>
           </div>
         </div>
       </div>
