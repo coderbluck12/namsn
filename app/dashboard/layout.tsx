@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import Image from 'next/image';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
@@ -43,17 +44,17 @@ export default function DashboardLayout({
     <div className="min-h-screen bg-gray-100">
       {/* Mobile sidebar */}
       <div className="lg:hidden">
-        <div className="flex items-center justify-between bg-indigo-600 p-4">
+        <div className="flex items-center justify-between p-4">
           <div className="flex items-center">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="text-white focus:outline-none"
+              className="text-black focus:outline-none"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <h1 className="ml-4 text-xl font-bold text-white">Namsn</h1>
+            <Image src="/namsn.png" alt="Logo" width={52} height={52} />
           </div>
         </div>
         
@@ -63,7 +64,7 @@ export default function DashboardLayout({
             <div className="relative flex w-full max-w-xs flex-1 flex-col bg-white">
               <div className="h-0 flex-1 overflow-y-auto pt-5 pb-4">
                 <div className="flex flex-shrink-0 items-center px-4">
-                  <h1 className="text-xl font-bold text-gray-900">Namsn</h1>
+                  <Image src="/namsn.png" alt="Logo" width={52} height={52} />
                 </div>
                 <nav className="mt-5 space-y-1 px-2">
                   {navigation.map((item) => (
@@ -117,7 +118,7 @@ export default function DashboardLayout({
         <div className="flex min-h-0 flex-1 flex-col border-r border-gray-200 bg-white">
           <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
             <div className="flex flex-shrink-0 items-center px-4">
-              <h1 className="text-xl font-bold text-gray-900">Namsn</h1>
+              <Image src="/namsn.png" alt="Logo" width={52} height={52} />
             </div>
             <nav className="mt-5 flex-1 space-y-1 bg-white px-2">
               {navigation.map((item) => (

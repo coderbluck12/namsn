@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Calendar, Users, Award, BookOpen, Star, ChevronDown, Mail, Phone, MapPin } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Navigation Component
 const Navbar = () => {
@@ -18,7 +19,7 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"
           >
-            Namsn
+            <Image src="/namsn.png" alt="Logo" width={52} height={52} />
           </motion.div>
           <div className="hidden md:flex space-x-8">
             {['Home', 'About', 'Features', 'Team', 'Events', 'Contact'].map((item, index) => (
@@ -137,20 +138,20 @@ const Features = () => {
   const features = [
     {
       icon: <BookOpen className="w-8 h-8" />,
-      title: "Course Management",
-      description: "Comprehensive tools for curriculum planning, scheduling, and academic tracking.",
+      title: "Course Materials",
+      description: "Get easy access to course materials",
       color: "from-blue-500 to-cyan-500"
     },
     {
       icon: <Users className="w-8 h-8" />,
-      title: "Student Portal",
-      description: "Unified platform for student enrollment, grades, and communication.",
+      title: "Announcement Access",
+      description: "Get easy access to important announcements and updates",
       color: "from-green-500 to-emerald-500"
     },
     {
       icon: <Award className="w-8 h-8" />,
-      title: "Performance Analytics",
-      description: "Advanced insights and reporting for data-driven decisions.",
+      title: "Payment Portal",
+      description: "Pay your dues easily and securely.",
       color: "from-purple-500 to-pink-500"
     },
     {
@@ -208,50 +209,74 @@ const Team = () => {
     {
       name: "Olojede Abisola",
       role: "President",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face",
-      bio: "Leading educational innovation with 15+ years of academic excellence."
+      image: "/prof.jpg",
+      bio: "Leads the department, oversees activities, and represents students in official matters"
     },
     {
       name: "Olutade Akorede",
       role: "Vice President",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
-      bio: "Specializes in curriculum development and student engagement strategies."
+      image: "/korede.jpg",
+      bio: "Assists the president and takes charge in their absence."
     },
     {
       name: "Abdulazeez Ridwan",
       role: "General Secretary",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
-      bio: "Driving cutting-edge research initiatives and academic partnerships."
+      image: "/arridoh.jpg",
+      bio: "Coordinates department activities, manages records, and ensures smooth operations."
     },
     {
       name: "Adegbenro Mustapha",
       role: "Asst. General Secretary",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-      bio: "Ensuring seamless integration of technology in educational processes."
+      image: "/kudus.jpg",
+      bio: "Supports the secretary and fills in when needed."
     },
     {
       name: "Mercy Osatofo",
       role: "Welfare Director",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-      bio: "Ensuring seamless integration of technology in educational processes."
+      image: "/mercy.jpg",
+      bio: "Coordinates welfare activities and ensures student well-being."
     },
     {
       name: "Oyenola Philip",
       role: "Financial Secretary",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-      bio: "Ensuring seamless integration of technology in educational processes."
+      image: "/philip.jpg",
+      bio: "Coordinates financial activities and ensures proper management of funds."
     },
     {
       name: "Ajayi Alice",
       role: "Treasurer",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-      bio: "Ensuring seamless integration of technology in educational processes."
+      image: "/alice.jpg",
+      bio: "Coordinates financial activities and ensures proper management of funds."
     },
     {
       name: "Olabode Goodness",
       role: "P.R.O 1",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-      bio: "Ensuring seamless integration of technology in educational processes."
+      image: "/ogd.jpg",
+      bio: "Handles communication, publicity, and external relations."
+    },
+    {
+      name: "Lelile Oriade",
+      role: "Sport Director",
+      image: "/kendo.jpg",
+      bio: "Coordinates sporting activities and competitions."
+    },
+    {
+      name: "Onadairo Johnson",
+      role: "Libarian",
+      image: "/hammed.jpg",
+      bio: "Manages academic materials, books, and resources."
+    },
+    {
+      name: "Adetoye Martins",
+      role: "Social Director",
+      image: "/fawas.jpg",
+      bio: "Organizes social events and programs."
+    },
+    {
+      name: "Bankole Isreal",
+      role: "P.R.O 2",
+      image: "/samod.jpg",
+      bio: "Assists P.R.O. 1 in publicity and student communication."
     }
   ];
 
@@ -459,13 +484,13 @@ const About = () => (
             About Our <span className="text-indigo-600">Department</span>
           </h2>
           <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-            We are a forward-thinking department committed to excellence in education, research, and innovation. Our mission is to provide cutting-edge solutions that enhance the academic experience for students, faculty, and administrators.
+          Mathematics is a subject of varied features ranging from intrinsic beauty to its usefulness with wide-scope of applications in Science, Engineering, Technology and Social Sciences. This Mathematics programme is designed for students who are interested in these features. The curriculum has been carefully planned to equip students with a broad knowledge from various aspects of Mathematics.
           </p>
           <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-            With decades of combined experience, our team leverages the latest technology to streamline educational processes and create meaningful learning environments.
+          The curriculum has been carefully planned to assist the students to specialize according to their own aptitude in Pure Mathematics or in any area of Applied Mathematics. The main goals of the programme are:
           </p>
           <div className="space-y-4">
-            {["Innovation-Driven Approach", "Student-Centered Solutions", "Research Excellence"].map((item, index) => (
+            {["To train professional Mathematicians to reason rigorously and logically.", "To train graduates who are not only qualified in the core subjects but have a good overall ability in the applied mathematics.", "To train Mathematicians to pursue the study of scientific and technological problems"].map((item, index) => (
               <div key={index} className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-indigo-600 rounded-full"></div>
                 <span className="text-gray-700 font-medium">{item}</span>
