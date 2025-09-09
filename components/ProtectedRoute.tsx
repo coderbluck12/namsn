@@ -13,7 +13,7 @@ export default function ProtectedRoute({
   adminOnly?: boolean;
 }) {
   const { currentUser, loading } = useAuth();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function ProtectedRoute({
   if (adminOnly && !isAdmin) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p>Unauthorized. You don't have permission to access this page.</p>
+        <p>Unauthorized. You don&apos;t have permission to access this page.</p>
       </div>
     );
   }

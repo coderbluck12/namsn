@@ -3,6 +3,9 @@ import {
   collection, 
   addDoc, 
   updateDoc,
+  DocumentData,
+  QueryDocumentSnapshot,
+  Timestamp,
   serverTimestamp, 
   deleteDoc, 
   doc, 
@@ -11,9 +14,10 @@ import {
   orderBy, 
   limit, 
   where,
-  Timestamp,
   onSnapshot,
-  Unsubscribe
+  Unsubscribe,
+  Query,
+  CollectionReference
 } from 'firebase/firestore';
 import { Course, CreateCourseDto, UpdateCourseDto, getYoutubeThumbnailUrl } from '@/types/course';
 
@@ -28,6 +32,31 @@ interface CourseDocument extends CreateCourseDto {
   createdBy: string;
   createdByName: string;
 }
+
+// Type for Firestore document data
+interface FirestoreCourse extends Omit<Course, 'id' | 'createdAt' | 'updatedAt'> {
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+const convertDocumentToCourse = (doc: QueryDocumentSnapshot<DocumentData>): Course => {
+  const data = doc.data() as FirestoreCourse;
+  return {
+    id: doc.id,
+    title: data.title,
+    description: data.description,
+    youtubeUrl: data.youtubeUrl,
+    thumbnailUrl: data.thumbnailUrl,
+    duration: data.duration,
+    category: data.category,
+    level: data.level,
+    isPublished: data.isPublished,
+    createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : new Date(data.createdAt as any),
+    updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : new Date(data.updatedAt as any),
+    createdBy: data.createdBy,
+    createdByName: data.createdByName,
+  };
+};
 
 export const createCourse = async (
   data: CreateCourseDto,
@@ -64,13 +93,12 @@ export const createCourse = async (
 export const updateCourse = async (id: string, data: UpdateCourseDto): Promise<void> => {
   try {
     const courseRef = doc(db, COURSES_COLLECTION, id);
-    const updateData: UpdateCourseDto & { 
-      updatedAt: Timestamp; 
+    const updateData: Partial<UpdateCourseDto> & { 
+      updatedAt?: any; 
       thumbnailUrl?: string; 
       duration?: string; 
     } = { 
-      ...data,
-      updatedAt: Timestamp.now() 
+      ...data
     };
     
     // If YouTube URL is being updated, update the thumbnail as well
@@ -83,14 +111,10 @@ export const updateCourse = async (id: string, data: UpdateCourseDto): Promise<v
       updateData.duration = '0:00';
     }
     
-    // Create a new object with the updated timestamp
-    const updatePayload = {
-      ...updateData,
-      updatedAt: serverTimestamp()
-    };
+    // Add server timestamp
+    updateData.updatedAt = serverTimestamp();
     
-    // Use type assertion to satisfy TypeScript
-    await updateDoc(courseRef, updatePayload as Record<string, any>);
+    await updateDoc(courseRef, updateData);
   } catch (error) {
     console.error('Error updating course:', error);
     throw error;
@@ -107,37 +131,18 @@ export const deleteCourse = async (id: string): Promise<void> => {
   }
 };
 
-// Helper function to convert Firestore document to Course object
-const convertDocumentToCourse = (doc: any): Course => {
-  const data = doc.data();
-  return {
-    id: doc.id,
-    title: data.title,
-    description: data.description,
-    youtubeUrl: data.youtubeUrl,
-    thumbnailUrl: data.thumbnailUrl,
-    duration: data.duration,
-    category: data.category,
-    level: data.level,
-    isPublished: data.isPublished,
-    createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : data.createdAt,
-    updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : data.updatedAt,
-    createdBy: data.createdBy,
-    createdByName: data.createdByName,
-  };
-};
-
 export const getPublishedCourses = async (limitCount: number = 10): Promise<Course[]> => {
   try {
+    const coursesCollection = collection(db, COURSES_COLLECTION);
     const q = query(
-      collection(db, COURSES_COLLECTION),
+      coursesCollection,
       where('isPublished', '==', true),
       orderBy('createdAt', 'desc'),
       limit(limitCount)
     );
-    
+
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(convertDocumentToCourse);
+    return querySnapshot.docs.map(doc => convertDocumentToCourse(doc));
   } catch (error) {
     console.error('Error getting published courses:', error);
     throw error;
@@ -146,14 +151,15 @@ export const getPublishedCourses = async (limitCount: number = 10): Promise<Cour
 
 export const getAllCourses = async (limitCount: number = 100): Promise<Course[]> => {
   try {
+    const coursesCollection = collection(db, COURSES_COLLECTION);
     const q = query(
-      collection(db, COURSES_COLLECTION),
+      coursesCollection,
       orderBy('createdAt', 'desc'),
       limit(limitCount)
     );
-    
+
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(convertDocumentToCourse);
+    return querySnapshot.docs.map(doc => convertDocumentToCourse(doc));
   } catch (error) {
     console.error('Error getting all courses:', error);
     throw error;
@@ -162,16 +168,17 @@ export const getAllCourses = async (limitCount: number = 100): Promise<Course[]>
 
 export const getCoursesByCategory = async (category: string, limitCount: number = 10): Promise<Course[]> => {
   try {
+    const coursesCollection = collection(db, COURSES_COLLECTION);
     const q = query(
-      collection(db, COURSES_COLLECTION),
+      coursesCollection,
       where('category', '==', category),
       where('isPublished', '==', true),
       orderBy('createdAt', 'desc'),
       limit(limitCount)
     );
-    
+
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(convertDocumentToCourse);
+    return querySnapshot.docs.map(doc => convertDocumentToCourse(doc));
   } catch (error) {
     console.error('Error getting courses by category:', error);
     throw error;
@@ -180,16 +187,17 @@ export const getCoursesByCategory = async (category: string, limitCount: number 
 
 export const getCoursesByLevel = async (level: 'Beginner' | 'Intermediate' | 'Advanced', limitCount: number = 10): Promise<Course[]> => {
   try {
+    const coursesCollection = collection(db, COURSES_COLLECTION);
     const q = query(
-      collection(db, COURSES_COLLECTION),
+      coursesCollection,
       where('level', '==', level),
       where('isPublished', '==', true),
       orderBy('createdAt', 'desc'),
       limit(limitCount)
     );
-    
+
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(convertDocumentToCourse);
+    return querySnapshot.docs.map(doc => convertDocumentToCourse(doc));
   } catch (error) {
     console.error('Error getting courses by level:', error);
     throw error;
@@ -204,31 +212,34 @@ export const subscribeToPublishedCourses = (
   limitCount: number = 10
 ): Unsubscribe => {
   try {
-    // Primary query with ordering
-    const qWithOrder = query(
-      collection(db, COURSES_COLLECTION),
+    const coursesCollection = collection(db, COURSES_COLLECTION);
+    const q = query(
+      coursesCollection,
       where('isPublished', '==', true),
       orderBy('createdAt', 'desc'),
       limit(limitCount)
     );
 
     return onSnapshot(
-      qWithOrder,
+      q,
       (querySnapshot) => {
-        const courses = querySnapshot.docs.map(convertDocumentToCourse);
-        onData(courses);
+        try {
+          const courses = querySnapshot.docs.map(doc => convertDocumentToCourse(doc));
+          onData(courses);
+        } catch (conversionError) {
+          console.error('Error converting documents to courses:', conversionError);
+          if (onError && conversionError instanceof Error) {
+            onError(conversionError);
+          }
+        }
       },
       (error) => {
-        console.error('Firestore query error:', error.message);
-
-        // 🔥 If it's an index error, fall back to simpler query (no orderBy)
-        if (error.code === 'failed-precondition') {
-          console.warn(
-            'Missing Firestore index for (isPublished + createdAt). Falling back without orderBy.'
-          );
-
+        console.error('Error subscribing to courses:', error);
+        
+        // Try fallback query without orderBy in case of index issues
+        try {
           const qFallback = query(
-            collection(db, COURSES_COLLECTION),
+            coursesCollection,
             where('isPublished', '==', true),
             limit(limitCount)
           );
@@ -236,14 +247,26 @@ export const subscribeToPublishedCourses = (
           return onSnapshot(
             qFallback,
             (querySnapshot) => {
-              const courses = querySnapshot.docs.map(convertDocumentToCourse);
-              onData(courses);
+              try {
+                const courses = querySnapshot.docs.map(doc => convertDocumentToCourse(doc));
+                onData(courses);
+              } catch (conversionError) {
+                console.error('Error converting documents in fallback:', conversionError);
+                if (onError && conversionError instanceof Error) {
+                  onError(conversionError);
+                }
+              }
             },
             (fallbackError) => {
               console.error('Fallback query also failed:', fallbackError);
               if (onError) onError(fallbackError);
             }
           );
+        } catch (fallbackSetupError) {
+          console.error('Error setting up fallback query:', fallbackSetupError);
+          if (onError && fallbackSetupError instanceof Error) {
+            onError(fallbackSetupError);
+          }
         }
 
         if (onError) onError(error);
