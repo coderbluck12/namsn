@@ -9,6 +9,8 @@ import { subscribeToRecentMaterials } from '@/lib/firebase/materialService';
 import { format, formatDistanceToNow } from 'date-fns';
 
 // Static data - moved outside component to avoid re-declaration
+// Note: This is currently unused but kept for future reference
+/*
 const staticAnnouncements = [
   {
     id: 1,
@@ -25,6 +27,7 @@ const staticAnnouncements = [
     read: true,
   },
 ];
+*/
 
 const upcomingClasses = [
   {
@@ -96,7 +99,7 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <div className="pb-5 border-b border-gray-200">
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="mt-2 text-sm text-gray-600">Welcome back! Here's what's happening with your courses today.</p>
+        <p className="mt-2 text-sm text-gray-600">Welcome back! Here&apos;s what&apos;s happening with your courses today.</p>
       </div>
 
       {/* Stats */}

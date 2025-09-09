@@ -54,16 +54,17 @@ export default function RegisterPage() {
       
       // Redirect to dashboard on successful registration and login
       router.push('/dashboard');
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const firebaseError = error as { code?: string; message?: string };
       console.error('Registration error:', error);
-      if (error.code === 'auth/email-already-in-use') {
+      if (firebaseError.code === 'auth/email-already-in-use') {
         setError('This email is already registered. Please use a different email or sign in.');
-      } else if (error.code === 'auth/invalid-email') {
+      } else if (firebaseError.code === 'auth/invalid-email') {
         setError('Please enter a valid email address.');
-      } else if (error.code === 'auth/weak-password') {
+      } else if (firebaseError.code === 'auth/weak-password') {
         setError('Password should be at least 6 characters long.');
       } else {
-        setError('Failed to create an account. Please try again.');
+        setError(firebaseError.message || 'Failed to create an account. Please try again.');
       }
     } finally {
       setLoading(false);

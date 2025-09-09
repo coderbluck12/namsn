@@ -15,9 +15,7 @@ import {
   limit, 
   where,
   onSnapshot,
-  Unsubscribe,
-  Query,
-  CollectionReference
+  Unsubscribe
 } from 'firebase/firestore';
 import { Course, CreateCourseDto, UpdateCourseDto, getYoutubeThumbnailUrl } from '@/types/course';
 
@@ -51,8 +49,8 @@ const convertDocumentToCourse = (doc: QueryDocumentSnapshot<DocumentData>): Cour
     category: data.category,
     level: data.level,
     isPublished: data.isPublished,
-    createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : new Date(data.createdAt as any),
-    updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : new Date(data.updatedAt as any),
+    createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : new Date(data.createdAt as unknown as string | number),
+    updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : new Date(data.updatedAt as unknown as string | number),
     createdBy: data.createdBy,
     createdByName: data.createdByName,
   };
@@ -94,7 +92,7 @@ export const updateCourse = async (id: string, data: UpdateCourseDto): Promise<v
   try {
     const courseRef = doc(db, COURSES_COLLECTION, id);
     const updateData: Partial<UpdateCourseDto> & { 
-      updatedAt?: any; 
+      updatedAt?: Timestamp; 
       thumbnailUrl?: string; 
       duration?: string; 
     } = { 
@@ -112,7 +110,7 @@ export const updateCourse = async (id: string, data: UpdateCourseDto): Promise<v
     }
     
     // Add server timestamp
-    updateData.updatedAt = serverTimestamp();
+    updateData.updatedAt = serverTimestamp() as Timestamp;
     
     await updateDoc(courseRef, updateData);
   } catch (error) {

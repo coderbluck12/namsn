@@ -26,16 +26,17 @@ export default function LoginPage() {
     try {
       await login(formData.email, formData.password);
       router.push('/dashboard');
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const firebaseError = error as { code?: string; message?: string };
       console.error('Login error:', error);
-      if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+      if (firebaseError.code === 'auth/user-not-found' || firebaseError.code === 'auth/wrong-password') {
         setError('Invalid email or password');
-      } else if (error.code === 'auth/too-many-requests') {
+      } else if (firebaseError.code === 'auth/too-many-requests') {
         setError('Too many failed attempts. Please try again later.');
-      } else if (error.code === 'auth/user-disabled') {
+      } else if (firebaseError.code === 'auth/user-disabled') {
         setError('This account has been disabled. Please contact support.');
       } else {
-        setError('Failed to sign in. Please try again.');
+        setError(firebaseError.message || 'Failed to sign in. Please try again.');
       }
     } finally {
       setLoading(false);

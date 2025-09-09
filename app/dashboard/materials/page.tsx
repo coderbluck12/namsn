@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
-import { FileText, Search, Download, Folder, ExternalLink, ChevronDown, ChevronRight } from 'lucide-react';
+import { FileText, Search, Download, Folder, ChevronDown, ChevronRight } from 'lucide-react';
 
 // Type definitions
 interface Material {
@@ -63,7 +63,7 @@ export default function MaterialsPage() {
     });
   };
 
-  const handleDownload = (fileUrl: string, fileName: string): void => {
+  const handleDownload = (fileUrl: string, _fileName: string): void => {
     // Open the file URL in a new tab for download
     window.open(fileUrl, '_blank', 'noopener,noreferrer');
   };
@@ -213,7 +213,7 @@ export default function MaterialsPage() {
           <Folder className="mx-auto h-12 w-12 text-blue-400" />
           <h3 className="mt-2 text-sm font-medium text-gray-900">Need something else?</h3>
           <p className="mt-1 text-sm text-gray-500">
-            If you can't find what you're looking for, contact your instructor.
+            If you can&apos;t find what you&apos;re looking for, contact your instructor.
           </p>
           <div className="mt-6">
             <button
