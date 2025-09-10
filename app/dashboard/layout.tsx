@@ -125,7 +125,15 @@ export default function DashboardLayout({
                       />
                     </div>
                     <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">Student Name</p>
+                    {name ? (           
+                      <div className="h-8 w-8 animate-pulse bg-gray-200 rounded"></div>
+                    ) : userName ? (
+                      <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                        {userName}
+                      </p>
+                    ) : (
+                      <p className='text-sm font-medium text-gray-700 group-hover:text-gray-900'>Student Name</p>
+                    )}
                       <Link
                         href="/auth/login"
                         className="text-xs font-medium text-gray-500 group-hover:text-gray-700"
