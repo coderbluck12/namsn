@@ -12,6 +12,7 @@ export default function RegisterPage() {
     lastName: '',
     email: '',
     matricNumber: '',
+    level: '100', // Default to 100 level
     password: '',
     confirmPassword: '',
   });
@@ -47,6 +48,7 @@ export default function RegisterPage() {
         firstName: formData.firstName,
         lastName: formData.lastName,
         matricNumber: formData.matricNumber,
+        level: formData.level,
         // Add any other additional fields here
       };
       
@@ -71,7 +73,7 @@ export default function RegisterPage() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -182,6 +184,26 @@ export default function RegisterPage() {
                 value={formData.matricNumber}
                 onChange={handleChange}
               />
+            </div>
+
+            {/* Level Field */}
+            <div>
+              <label htmlFor="level" className="block text-sm font-medium text-gray-700 mb-1">
+                Level
+              </label>
+              <select
+                id="level"
+                name="level"
+                required
+                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white"
+                value={formData.level}
+                onChange={handleChange}
+              >
+                <option value="100">100 Level</option>
+                <option value="200">200 Level</option>
+                <option value="300">300 Level</option>
+                <option value="400">400 Level</option>
+              </select>
             </div>
 
             {/* Password Field */}

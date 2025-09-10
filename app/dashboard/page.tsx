@@ -7,38 +7,20 @@ import { Material } from '@/types/material';
 import { subscribeToAnnouncements } from '@/lib/firebase/announcementService';
 import { subscribeToRecentMaterials } from '@/lib/firebase/materialService';
 import { format, formatDistanceToNow } from 'date-fns';
-
-// Static data - moved outside component to avoid re-declaration
-// Note: This is currently unused but kept for future reference
-/*
-const staticAnnouncements = [
-  {
-    id: 1,
-    title: 'Midterm Exams Schedule',
-    preview: 'The midterm exams schedule has been published. Please check your courses for details.',
-    date: '2 days ago',
-    read: false,
-  },
-  {
-    id: 2,
-    title: 'Holiday Notice',
-    preview: 'The university will be closed on Monday, October 10th for a public holiday.',
-    date: '1 week ago',
-    read: true,
-  },
-];
-*/
+import { useAuth } from '@/contexts/AuthContext';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase/config';
 
 const upcomingClasses = [
   {
     id: 1,
-    course: 'Computer Science 101',
+    course: 'CSC 101',
     time: '09:00 AM - 10:30 AM',
     room: 'Building A, Room 101',
   },
   {
     id: 2,
-    course: 'Mathematics 202',
+    course: 'MTS 211',
     time: '11:00 AM - 12:30 PM',
     room: 'Building B, Room 205',
   },
@@ -51,6 +33,9 @@ export default function DashboardPage() {
   const [recentMaterials, setRecentMaterials] = useState<Material[]>([]);
   const [isLoadingAnnouncements, setIsLoadingAnnouncements] = useState(true);
   const [isLoadingMaterials, setIsLoadingMaterials] = useState(true);
+  const [userLevel, setUserLevel] = useState<string | null>(null);
+  const [isLoadingLevel, setIsLoadingLevel] = useState(true);
+  const { currentUser } = useAuth();
 
   // Calculate unread announcements count
   const unreadAnnouncements = announcements.filter(announcement => 
@@ -95,6 +80,31 @@ export default function DashboardPage() {
     };
   }, []);
 
+  // Fetch user level
+  useEffect(() => {
+    const fetchUserLevel = async () => {
+      if (!currentUser) {
+        setIsLoadingLevel(false);
+        return;
+      }
+
+      try {
+        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setUserLevel(userData.level || 'Not set');
+        }
+      } catch (error) {
+        console.error('Error fetching user level:', error);
+        setUserLevel('Error');
+      } finally {
+        setIsLoadingLevel(false);
+      }
+    };
+
+    fetchUserLevel();
+  }, [currentUser]);
+
   return (
     <div className="space-y-6">
       <div className="pb-5 border-b border-gray-200">
@@ -112,9 +122,17 @@ export default function DashboardPage() {
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Active Courses</dt>
+                  <dt className="text-sm font-medium text-gray-500 truncate">Level</dt>
                   <dd className="flex items-baseline">
-                    <div className="text-2xl font-semibold text-gray-900">5</div>
+                    <div className="text-2xl font-semibold text-gray-900">
+                      {isLoadingLevel ? (
+                        <div className="h-8 w-8 animate-pulse bg-gray-200 rounded"></div>
+                      ) : userLevel ? (
+                        `${userLevel} Level`
+                      ) : (
+                        'Not set'
+                      )}
+                    </div>
                   </dd>
                 </dl>
               </div>
@@ -122,7 +140,7 @@ export default function DashboardPage() {
           </div>
           <div className="bg-gray-50 px-5 py-3">
             <div className="text-sm">
-              <Link href="/dashboard/courses" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <Link href="/dashboard" className="font-medium text-indigo-600 hover:text-indigo-500">
                 View all
               </Link>
             </div>

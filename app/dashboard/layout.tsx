@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase/config';
 import Image from 'next/image';
 
 const navigation = [
@@ -23,6 +25,8 @@ export default function DashboardLayout({
   const router = useRouter()
   const { currentUser, loading, logout } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
+  const [name, setName] = useState(true)
   const pathname = usePathname();
 
   useEffect(() => {
@@ -39,6 +43,30 @@ export default function DashboardLayout({
       console.error('Logout error:', error);
     }
   };
+
+  useEffect(() => {
+      const fetchUserName = async () => {
+        if (!currentUser) {
+          setName(false);
+          return;
+        }
+  
+        try {
+          const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUserName(userData.firstName || 'Not set');
+          }
+        } catch (error) {
+          console.error('Error fetching user name:', error);
+          setUserName('Error');
+        } finally {
+          setName(false);
+        }
+      };
+  
+      fetchUserName();
+    }, [currentUser]);
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -151,7 +179,15 @@ export default function DashboardLayout({
                   />
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">Student Name</p>
+                  {name ? (           
+                      <div className="h-8 w-8 animate-pulse bg-gray-200 rounded"></div>
+                  ) : userName ? (
+                    <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                      {userName}
+                    </p>
+                  ) : (
+                    <p className='text-sm font-medium text-gray-700 group-hover:text-gray-900'>Student Name</p>
+                  )}
                   <button
                     onClick={handleLogout}
                     className="text-xs font-medium text-gray-500 group-hover:text-gray-700"
