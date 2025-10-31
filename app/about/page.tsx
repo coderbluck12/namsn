@@ -341,8 +341,8 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <GraduationCap className="h-8 w-8 text-indigo-400" />
-              <span className="text-xl font-bold">Mathematics Department</span>
+              <Image src="/namsn.png" alt="Logo" width={52} height={52} />
+              <span className="text-xl font-bold">Namsn</span>
             </div>
             <p className="text-gray-400 mb-4">
               © 2025 Team ExcelSheOr. All rights reserved.
