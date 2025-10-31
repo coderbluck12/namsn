@@ -269,7 +269,7 @@ const Team = () => {
       bio: "Handles communication, publicity, and external relations."
     },
     {
-      name: "Lelile Oriade",
+      name: "Lebile Oriade",
       role: "Sport Director",
       image: "/kendo.jpg",
       bio: "Coordinates sporting activities and competitions."
@@ -345,7 +345,7 @@ const Team = () => {
 const Events = () => {
   const upcomingEvents = [
     {
-      date: "Sep 15",
+      date: "Coming Soon",
       title: "Academic Excellence Summit",
       time: "9:00 AM - 5:00 PM",
       location: "Main Auditorium",
@@ -353,7 +353,7 @@ const Events = () => {
       color: "from-blue-500 to-indigo-500"
     },
     {
-      date: "Sep 22",
+      date: "Nov 5",
       title: "Student Orientation Program",
       time: "10:00 AM - 2:00 PM",
       location: "Campus Center",
@@ -361,7 +361,7 @@ const Events = () => {
       color: "from-green-500 to-emerald-500"
     },
     {
-      date: "Sep 28",
+      date: "Coming Soon",
       title: "Faculty Development Workshop",
       time: "2:00 PM - 6:00 PM",
       location: "Conference Room A",
@@ -369,7 +369,7 @@ const Events = () => {
       color: "from-purple-500 to-pink-500"
     },
     {
-      date: "Oct 05",
+      date: "Coming Soon",
       title: "Research Symposium",
       time: "9:00 AM - 4:00 PM",
       location: "Science Building",
