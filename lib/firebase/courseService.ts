@@ -228,8 +228,8 @@ export const subscribeToPublishedCourses = (
           
           // Sort by createdAt on the client side
           const sortedCourses = courses.sort((a, b) => {
-            const dateA = a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt as any);
-            const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt as any);
+            const dateA = a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt as unknown as string | number);
+            const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt as unknown as string | number);
             return dateB.getTime() - dateA.getTime(); // Descending order (newest first)
           });
           
