@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
     UserIcon,       // Alternative to User
     Edit3,          // Alternative edit icon
@@ -8,31 +8,98 @@ import {
     XCircle,        // X with circle
     Camera as CameraIcon  // Renamed import
   } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase/config';
+import toast from 'react-hot-toast';
 
 export default function ProfilePage() {
+  const { currentUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [profile, setProfile] = useState({
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@university.edu',
-    matricNumber: 'MSC/CS/2023/001',
-    department: 'Computer Science',
-    level: '400',
-    phone: '+234 800 000 0000',
-    address: '123 University Avenue, City, Country',
+    firstName: '',
+    lastName: '',
+    email: '',
+    matricNumber: '',
+    department: 'Mathematics',
+    level: '100',
+    phone: '',
+    address: '',
   });
   const [tempProfile, setTempProfile] = useState({ ...profile });
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  // Load user data from Firebase
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!currentUser) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const loadedProfile = {
+            firstName: userData.firstName || '',
+            lastName: userData.lastName || '',
+            email: currentUser.email || '',
+            matricNumber: userData.matricNumber || '',
+            department: userData.department || 'Mathematics',
+            level: userData.level || '100',
+            phone: userData.phone || '',
+            address: userData.address || '',
+          };
+          setProfile(loadedProfile);
+          setTempProfile(loadedProfile);
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        toast.error('Failed to load profile data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [currentUser]);
 
   const handleEdit = () => {
     setTempProfile({ ...profile });
     setIsEditing(true);
   };
 
-  const handleSave = () => {
-    setProfile({ ...tempProfile });
-    setIsEditing(false);
-    // In a real app, you would save to an API here
+  const handleSave = async () => {
+    if (!currentUser) {
+      toast.error('You must be logged in to update your profile');
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const userRef = doc(db, 'users', currentUser.uid);
+      await updateDoc(userRef, {
+        firstName: tempProfile.firstName,
+        lastName: tempProfile.lastName,
+        matricNumber: tempProfile.matricNumber,
+        department: tempProfile.department,
+        level: tempProfile.level,
+        phone: tempProfile.phone,
+        address: tempProfile.address,
+      });
+      
+      setProfile({ ...tempProfile });
+      setIsEditing(false);
+      toast.success('Profile updated successfully!');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      toast.error('Failed to update profile. Please try again.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleCancel = () => {
@@ -57,6 +124,14 @@ export default function ProfilePage() {
       reader.readAsDataURL(file);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -88,10 +163,23 @@ export default function ProfilePage() {
               <button
                 type="button"
                 onClick={handleSave}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                disabled={saving}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <CheckCircle className="-ml-1 mr-2 h-5 w-5" />
-                Save Changes
+                {saving ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle className="-ml-1 mr-2 h-5 w-5" />
+                    Save Changes
+                  </>
+                )}
               </button>
             </div>
           )}
@@ -177,8 +265,19 @@ export default function ProfilePage() {
             </div>
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Matric Number</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {profile.matricNumber}
+              <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="matricNumber"
+                    value={tempProfile.matricNumber}
+                    onChange={handleChange}
+                    placeholder="e.g. 20CS/12345"
+                    className="flex-1 min-w-0 block w-full px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  />
+                ) : (
+                  <span className="flex-grow">{profile.matricNumber || 'Not set'}</span>
+                )}
               </dd>
             </div>
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

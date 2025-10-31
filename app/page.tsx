@@ -22,7 +22,7 @@ const Navbar = () => {
             <Image src="/namsn.png" alt="Logo" width={52} height={52} />
           </motion.div>
           <div className="hidden md:flex space-x-8">
-            {['Home', 'About', 'Features', 'Team', 'Events', 'Contact'].map((item, index) => (
+            {['Home', 'Features', 'Team', 'Events', 'Contact'].map((item, index) => (
               <motion.a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -35,6 +35,19 @@ const Navbar = () => {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
               </motion.a>
             ))}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              <Link
+                href="/about"
+                className="text-gray-700 hover:text-indigo-600 transition-all duration-300 font-medium relative group"
+              >
+                About
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+            </motion.div>
           </div>
           <div className="flex space-x-4">
             <Link href={"/auth/login"} className="px-6 py-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all duration-300 font-medium">
@@ -662,7 +675,7 @@ const Footer = () => (
       <div className="border-t border-gray-800 mt-8 pt-8">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © 2024 EduManage Pro. All rights reserved.
+            © 2025 Team ExcelSheOr. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">

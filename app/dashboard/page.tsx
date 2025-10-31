@@ -167,19 +167,19 @@ export default function DashboardPage() {
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Completed Assignments</dt>
-                  <dd className="flex items-baseline">
+                  <dt className="text-sm font-medium text-gray-500 truncate">Pay Dues</dt>
+                  {/* <dd className="flex items-baseline">
                     <div className="text-2xl font-semibold text-gray-900">12</div>
-                  </dd>
+                  </dd> */}
                 </dl>
               </div>
             </div>
           </div>
           <div className="bg-gray-50 px-5 py-3">
             <div className="text-sm">
-              <Link href="/dashboard/assignments" className="font-medium text-indigo-600 hover:text-indigo-500">
-                View all
-              </Link>
+              <a href="https://v1.virtuobusiness.com/en/student" target="_blank" className="font-medium text-indigo-600 hover:text-indigo-500">
+                Pay Dues
+              </a>
             </div>
           </div>
         </div>
@@ -192,19 +192,19 @@ export default function DashboardPage() {
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Pending Tasks</dt>
-                  <dd className="flex items-baseline">
+                  <dt className="text-sm font-medium text-gray-500 truncate">Tutorial Timetable</dt>
+                  {/* <dd className="flex items-baseline">
                     <div className="text-2xl font-semibold text-gray-900">3</div>
-                  </dd>
+                  </dd> */}
                 </dl>
               </div>
             </div>
           </div>
           <div className="bg-gray-50 px-5 py-3">
             <div className="text-sm">
-              <Link href="/dashboard/tasks" className="font-medium text-indigo-600 hover:text-indigo-500">
-                View all
-              </Link>
+              <a href="https://drive.google.com" target="_blank" className="font-medium text-indigo-600 hover:text-indigo-500">
+                Download
+              </a>
             </div>
           </div>
         </div>
