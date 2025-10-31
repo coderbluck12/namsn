@@ -317,38 +317,7 @@ export default function ProfilePage() {
                 )}
               </dd>
             </div>
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Phone</dt>
-              <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {isEditing ? (
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={tempProfile.phone}
-                    onChange={handleChange}
-                    className="flex-1 min-w-0 block w-full px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                ) : (
-                  <span className="flex-grow">{profile.phone}</span>
-                )}
-              </dd>
-            </div>
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Address</dt>
-              <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name="address"
-                    value={tempProfile.address}
-                    onChange={handleChange}
-                    className="flex-1 min-w-0 block w-full px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                ) : (
-                  <span className="flex-grow">{profile.address}</span>
-                )}
-              </dd>
-            </div>
+            
           </dl>
         </div>
       </div>

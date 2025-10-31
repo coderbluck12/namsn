@@ -211,10 +211,12 @@ export const subscribeToPublishedCourses = (
 ): Unsubscribe => {
   try {
     const coursesCollection = collection(db, COURSES_COLLECTION);
+    
+    // Try query without orderBy to avoid index requirement
+    // We'll sort on the client side instead
     const q = query(
       coursesCollection,
       where('isPublished', '==', true),
-      orderBy('createdAt', 'desc'),
       limit(limitCount)
     );
 
@@ -223,7 +225,15 @@ export const subscribeToPublishedCourses = (
       (querySnapshot) => {
         try {
           const courses = querySnapshot.docs.map(doc => convertDocumentToCourse(doc));
-          onData(courses);
+          
+          // Sort by createdAt on the client side
+          const sortedCourses = courses.sort((a, b) => {
+            const dateA = a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt as any);
+            const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt as any);
+            return dateB.getTime() - dateA.getTime(); // Descending order (newest first)
+          });
+          
+          onData(sortedCourses);
         } catch (conversionError) {
           console.error('Error converting documents to courses:', conversionError);
           if (onError && conversionError instanceof Error) {
