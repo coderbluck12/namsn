@@ -307,7 +307,7 @@ const Team = () => {
             Meet Our <span className="text-indigo-600">Team</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Dedicated professionals committed to educational excellence and innovation
+            Team ExcelSheOr - A female-led journey of divine excellence
           </p>
         </motion.div>
         
