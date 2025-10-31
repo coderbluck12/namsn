@@ -221,13 +221,13 @@ export default function AboutPage() {
                   <h3 className="text-xl font-bold text-gray-900 mb-1">{lecturer.name}</h3>
                   <p className="text-indigo-600 font-semibold mb-2">{lecturer.title}</p>
                   <p className="text-gray-600 mb-4">{lecturer.specialization}</p>
-                  <a
+                  {/* <a
                     href={`mailto:${lecturer.email}`}
                     className="inline-flex items-center text-sm text-indigo-600 hover:text-indigo-700 font-medium"
                   >
                     <Mail className="h-4 w-4 mr-2" />
                     Contact
-                  </a>
+                  </a> */}
                 </div>
               </div>
             ))}
