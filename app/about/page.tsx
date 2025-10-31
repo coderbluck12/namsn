@@ -110,13 +110,15 @@ export default function AboutPage() {
                 About Our Department
               </h2>
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                The Department of Mathematics has been at the forefront of mathematical education and research for over three decades. We are committed to nurturing analytical thinking, problem-solving skills, and mathematical excellence in our students.
+              The Department offers courses in Mathematics at the undergraduate level leading to the award of B.Sc. (Hons) in Mathematics. The Department also offers Postgraduate Programmes leading to the award of M.Sc. and Ph.D. degrees in Mathematics.
+
+              The Department will operate the following curriculum for its B. Sc. (Hons) Mathematics Programme
               </p>
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Our department offers a comprehensive curriculum that spans pure mathematics, applied mathematics, and mathematical statistics. We pride ourselves on our world-class faculty, state-of-the-art facilities, and a vibrant research culture.
+              Mathematics is a subject of varied features ranging from intrinsic beauty to its usefulness with wide-scope of applications in Science, Engineering, Technology and Social Sciences. This Mathematics programme is designed for students who are interested in these features. The curriculum has been carefully planned to equip students with a broad knowledge from various aspects of Mathematics.
               </p>
               <p className="text-lg text-gray-600 leading-relaxed">
-                Whether you&apos;re interested in theoretical mathematics, computational methods, or real-world applications, our programs provide the foundation for a successful career in academia, industry, or research.
+              The curriculum has been carefully planned to assist the students to specialize according to their own aptitude in Pure Mathematics or in any area of Applied Mathematics.
               </p>
             </div>
             <div className="grid grid-cols-1 gap-6">
@@ -126,9 +128,9 @@ export default function AboutPage() {
                     <Target className="h-6 w-6 text-indigo-600" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Our Mission</h3>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Missions</h3>
                     <p className="text-gray-600">
-                      To provide exceptional mathematical education and foster innovative research that contributes to scientific advancement and societal development.
+                    To train professional Mathematicians to reason rigorously and logically, as well as to be objective and analytical. This can easily make our graduates branch out to be successful in business, system analysis or financial sector.
                     </p>
                   </div>
                 </div>
@@ -139,9 +141,9 @@ export default function AboutPage() {
                     <Eye className="h-6 w-6 text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Our Vision</h3>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Missions</h3>
                     <p className="text-gray-600">
-                      To be a leading center of excellence in mathematical sciences, recognized globally for academic rigor and impactful research.
+                    To train Mathematicians to pursue the study of scientific and technological problems by mathematical techniques and to undertake research in various branches of mathematics.
                     </p>
                   </div>
                 </div>
