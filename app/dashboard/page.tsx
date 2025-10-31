@@ -230,7 +230,7 @@ export default function DashboardPage() {
             <h3 className="text-lg leading-6 font-medium text-gray-900">Upcoming Classes</h3>
             <p className="mt-1 max-w-2xl text-sm text-gray-500">Your schedule for today</p>
           </div>
-          <div className="divide-y divide-gray-200">
+           <div className="divide-y divide-gray-200">
             {upcomingClasses.length > 0 ? (
               upcomingClasses.map((classItem) => (
                 <div key={classItem.id} className="px-4 py-4 sm:px-6 hover:bg-gray-50">

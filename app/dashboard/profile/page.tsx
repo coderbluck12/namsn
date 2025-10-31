@@ -191,11 +191,7 @@ export default function ProfilePage() {
                     onChange={handleChange}
                     className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                   >
-                    <option>Computer Science</option>
                     <option>Mathematics</option>
-                    <option>Physics</option>
-                    <option>Chemistry</option>
-                    <option>Biology</option>
                   </select>
                 ) : (
                   profile.department
@@ -216,7 +212,6 @@ export default function ProfilePage() {
                     <option>200</option>
                     <option>300</option>
                     <option>400</option>
-                    <option>500</option>
                   </select>
                 ) : (
                   `Level ${profile.level}`
