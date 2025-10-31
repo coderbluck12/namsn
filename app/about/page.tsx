@@ -160,7 +160,7 @@ export default function AboutPage() {
                 Our department offers a comprehensive curriculum that spans pure mathematics, applied mathematics, and mathematical statistics. We pride ourselves on our world-class faculty, state-of-the-art facilities, and a vibrant research culture.
               </p>
               <p className="text-lg text-gray-600 leading-relaxed">
-                Whether you're interested in theoretical mathematics, computational methods, or real-world applications, our programs provide the foundation for a successful career in academia, industry, or research.
+                Whether you&apos;re interested in theoretical mathematics, computational methods, or real-world applications, our programs provide the foundation for a successful career in academia, industry, or research.
               </p>
             </div>
             <div className="grid grid-cols-1 gap-6">
@@ -287,7 +287,7 @@ export default function AboutPage() {
               Get In Touch
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+              Have questions? We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-12">
