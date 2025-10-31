@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { CheckCircleIcon, AcademicCapIcon, BookOpenIcon, ClockIcon, DocumentTextIcon, CalendarIcon, BellIcon } from '@heroicons/react/24/outline';
+import { CheckCircle, GraduationCap, BookOpen, Clock, FileText, Calendar, Bell } from 'lucide-react';
 import { Announcement } from '@/types/announcement';
 import { Material } from '@/types/material';
 import { subscribeToAnnouncements } from '@/lib/firebase/announcementService';
@@ -35,6 +35,8 @@ export default function DashboardPage() {
   const [isLoadingMaterials, setIsLoadingMaterials] = useState(true);
   const [userLevel, setUserLevel] = useState<string | null>(null);
   const [isLoadingLevel, setIsLoadingLevel] = useState(true);
+  const [firstName, setFirstName] = useState<string>('');
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
   const { currentUser } = useAuth();
 
   // Calculate unread announcements count
@@ -80,11 +82,12 @@ export default function DashboardPage() {
     };
   }, []);
 
-  // Fetch user level
+  // Fetch user data (level and first name)
   useEffect(() => {
-    const fetchUserLevel = async () => {
+    const fetchUserData = async () => {
       if (!currentUser) {
         setIsLoadingLevel(false);
+        setIsLoadingUser(false);
         return;
       }
 
@@ -93,23 +96,32 @@ export default function DashboardPage() {
         if (userDoc.exists()) {
           const userData = userDoc.data();
           setUserLevel(userData.level || 'Not set');
+          setFirstName(userData.firstName || currentUser.displayName?.split(' ')[0] || 'Student');
         }
       } catch (error) {
-        console.error('Error fetching user level:', error);
+        console.error('Error fetching user data:', error);
         setUserLevel('Error');
+        setFirstName('Student');
       } finally {
         setIsLoadingLevel(false);
+        setIsLoadingUser(false);
       }
     };
 
-    fetchUserLevel();
+    fetchUserData();
   }, [currentUser]);
 
   return (
     <div className="space-y-6">
       <div className="pb-5 border-b border-gray-200">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="mt-2 text-sm text-gray-600">Welcome back! Here&apos;s what&apos;s happening with your courses today.</p>
+        <h1 className="text-2xl font-bold text-gray-900">
+          {isLoadingUser ? (
+            'Dashboard'
+          ) : (
+            `Welcome back, ${firstName}!`
+          )}
+        </h1>
+        <p className="mt-2 text-sm text-gray-600">Here&apos;s what&apos;s happening with your courses today.</p>
       </div>
 
       {/* Stats */}
@@ -118,7 +130,7 @@ export default function DashboardPage() {
           <div className="p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
-                <AcademicCapIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                <GraduationCap className="h-6 w-6 text-white" aria-hidden="true" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
@@ -151,7 +163,7 @@ export default function DashboardPage() {
           <div className="p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
-                <CheckCircleIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                <CheckCircle className="h-6 w-6 text-white" aria-hidden="true" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
@@ -176,7 +188,7 @@ export default function DashboardPage() {
           <div className="p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0 bg-yellow-500 rounded-md p-3">
-                <ClockIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                <Clock className="h-6 w-6 text-white" aria-hidden="true" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
@@ -201,7 +213,7 @@ export default function DashboardPage() {
           <div className="p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0 bg-red-500 rounded-md p-3">
-                <BellIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                <Bell className="h-6 w-6 text-white" aria-hidden="true" />
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
@@ -223,60 +235,8 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Upcoming Classes */}
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-          <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Upcoming Classes</h3>
-            <p className="mt-1 max-w-2xl text-sm text-gray-500">Your schedule for today</p>
-          </div>
-           <div className="divide-y divide-gray-200">
-            {upcomingClasses.length > 0 ? (
-              upcomingClasses.map((classItem) => (
-                <div key={classItem.id} className="px-4 py-4 sm:px-6 hover:bg-gray-50">
-                  <div className="flex items-center">
-                    <div className="min-w-0 flex-1 flex items-center">
-                      <div>
-                        <h4 className="text-sm font-medium text-indigo-600 truncate">{classItem.course}</h4>
-                        <div className="mt-1 flex items-center text-sm text-gray-500">
-                          <ClockIcon className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" aria-hidden="true" />
-                          {classItem.time}
-                        </div>
-                        <div className="mt-1 flex items-center text-sm text-gray-500">
-                          <span className="truncate">{classItem.room}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="ml-5 flex-shrink-0">
-                      <button
-                        type="button"
-                        className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      >
-                        Join
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="px-4 py-12 text-center">
-                <CalendarIcon className="mx-auto h-12 w-12 text-gray-400" aria-hidden="true" />
-                <h3 className="mt-2 text-sm font-medium text-gray-900">No classes today</h3>
-                <p className="mt-1 text-sm text-gray-500">Enjoy your free time!</p>
-              </div>
-            )}
-          </div>
-          <div className="bg-gray-50 px-4 py-4 sm:px-6">
-            <div className="text-sm">
-              <Link href="/dashboard/schedule" className="font-medium text-indigo-600 hover:text-indigo-500">
-                View full schedule
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Recent Announcements */}
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+      {/* Recent Announcements - Full Width */}
+      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
           <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
             <div className="flex justify-between items-center">
               <h2 className="text-lg font-medium text-gray-900">Recent Announcements</h2>
@@ -312,7 +272,7 @@ export default function DashboardPage() {
                   <div className="flex items-start">
                     <div className="flex-shrink-0 pt-1">
                       <div className="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center">
-                        <BellIcon className="h-5 w-5 text-indigo-600" aria-hidden="true" />
+                        <Bell className="h-5 w-5 text-indigo-600" aria-hidden="true" />
                       </div>
                     </div>
                     <div className="ml-3 flex-1">
@@ -338,7 +298,6 @@ export default function DashboardPage() {
               ))
             )}
           </div>
-        </div>
       </div>
 
       {/* Recent Materials */}
@@ -357,7 +316,7 @@ export default function DashboardPage() {
                 <li key={material.id} className="py-3">
                   <div className="flex items-center space-x-4">
                     <div className="flex-shrink-0">
-                      <DocumentTextIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
+                      <FileText className="h-6 w-6 text-gray-400" aria-hidden="true" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium text-gray-900 truncate">{material.title}</p>
@@ -379,7 +338,7 @@ export default function DashboardPage() {
             </ul>
           ) : (
             <div className="px-4 py-12 text-center">
-              <BookOpenIcon className="mx-auto h-12 w-12 text-gray-400" aria-hidden="true" />
+              <BookOpen className="mx-auto h-12 w-12 text-gray-400" aria-hidden="true" />
               <h3 className="mt-2 text-sm font-medium text-gray-900">No materials available</h3>
               <p className="mt-1 text-sm text-gray-500">Check back later for new materials.</p>
             </div>

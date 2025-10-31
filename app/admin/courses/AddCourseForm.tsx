@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { createCourse, updateCourse } from '@/lib/firebase/courseService';
+import { createCourse, updateCourse, checkMonthlyCourseLimitReached } from '@/lib/firebase/courseService';
 import { Course, CreateCourseDto, UpdateCourseDto, getYoutubeThumbnailUrl } from '@/types/course';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
+import { AlertCircle } from 'lucide-react';
 
 // Define categories as a constant to maintain consistency
 const COURSE_CATEGORIES = [
@@ -57,6 +58,27 @@ export function AddCourseForm({ initialData, onSuccess, onCancel }: AddCourseFor
     isPublished: initialData?.isPublished || false,
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const [monthlyLimit, setMonthlyLimit] = useState<{ count: number; limit: number; limitReached: boolean } | null>(null);
+  const [isCheckingLimit, setIsCheckingLimit] = useState(false);
+
+  // Check monthly limit on mount (only for new courses, not edits)
+  useEffect(() => {
+    const checkLimit = async () => {
+      if (!currentUser || initialData?.id) return; // Skip check for edits
+      
+      setIsCheckingLimit(true);
+      try {
+        const limitInfo = await checkMonthlyCourseLimitReached(currentUser.uid);
+        setMonthlyLimit(limitInfo);
+      } catch (error) {
+        console.error('Error checking monthly limit:', error);
+      } finally {
+        setIsCheckingLimit(false);
+      }
+    };
+
+    checkLimit();
+  }, [currentUser, initialData?.id]);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -150,6 +172,21 @@ export function AddCourseForm({ initialData, onSuccess, onCancel }: AddCourseFor
       return;
     }
 
+    // Check monthly limit for new courses
+    if (!initialData?.id) {
+      try {
+        const limitInfo = await checkMonthlyCourseLimitReached(currentUser.uid);
+        if (limitInfo.limitReached) {
+          toast.error(`Monthly limit reached! You can only post ${limitInfo.limit} videos per month. You've posted ${limitInfo.count} this month.`);
+          return;
+        }
+      } catch (error) {
+        console.error('Error checking limit:', error);
+        toast.error('Failed to verify monthly limit. Please try again.');
+        return;
+      }
+    }
+
     try {
       setIsSubmitting(true);
       
@@ -186,6 +223,10 @@ export function AddCourseForm({ initialData, onSuccess, onCancel }: AddCourseFor
           currentUser.displayName || 'Admin'
         );
         toast.success('Course added successfully');
+        
+        // Refresh limit info after successful creation
+        const newLimitInfo = await checkMonthlyCourseLimitReached(currentUser.uid);
+        setMonthlyLimit(newLimitInfo);
       }
       
       // Reset form
@@ -209,9 +250,46 @@ export function AddCourseForm({ initialData, onSuccess, onCancel }: AddCourseFor
 
   return (
     <div className="border rounded-lg p-6 bg-card">
-      <h2 className="text-lg font-semibold mb-4">
-        {initialData?.id ? 'Edit Course' : 'Add New Course'}
-      </h2>
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <h2 className="text-lg font-semibold">
+            {initialData?.id ? 'Edit Course' : 'Add New Course'}
+          </h2>
+          {!initialData?.id && monthlyLimit && (
+            <p className="text-sm text-muted-foreground mt-1">
+              {monthlyLimit.limitReached ? (
+                <span className="text-red-600 font-medium flex items-center gap-1">
+                  <AlertCircle className="h-4 w-4" />
+                  Monthly limit reached ({monthlyLimit.count}/{monthlyLimit.limit} videos this month)
+                </span>
+              ) : (
+                <span className="text-green-600">
+                  {monthlyLimit.count}/{monthlyLimit.limit} videos posted this month
+                </span>
+              )}
+            </p>
+          )}
+          {isCheckingLimit && (
+            <p className="text-sm text-muted-foreground mt-1">Checking monthly limit...</p>
+          )}
+        </div>
+      </div>
+      
+      {!initialData?.id && monthlyLimit?.limitReached && (
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
+          <div className="flex items-start gap-2">
+            <AlertCircle className="h-5 w-5 text-red-600 mt-0.5" />
+            <div>
+              <h3 className="text-sm font-medium text-red-800">Monthly Limit Reached</h3>
+              <p className="text-sm text-red-700 mt-1">
+                You have reached the maximum limit of {monthlyLimit.limit} videos per month. 
+                You can post more videos starting next month.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -327,7 +405,7 @@ export function AddCourseForm({ initialData, onSuccess, onCancel }: AddCourseFor
         <div className="flex flex-col sm:flex-row gap-3 w-full">
           <Button 
             type="submit" 
-            disabled={isSubmitting}
+            disabled={isSubmitting || (!initialData?.id && monthlyLimit?.limitReached)}
             className="flex-1"
           >
             {isSubmitting ? (

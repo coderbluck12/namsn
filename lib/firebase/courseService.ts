@@ -233,40 +233,6 @@ export const subscribeToPublishedCourses = (
       },
       (error) => {
         console.error('Error subscribing to courses:', error);
-        
-        // Try fallback query without orderBy in case of index issues
-        try {
-          const qFallback = query(
-            coursesCollection,
-            where('isPublished', '==', true),
-            limit(limitCount)
-          );
-
-          return onSnapshot(
-            qFallback,
-            (querySnapshot) => {
-              try {
-                const courses = querySnapshot.docs.map(doc => convertDocumentToCourse(doc));
-                onData(courses);
-              } catch (conversionError) {
-                console.error('Error converting documents in fallback:', conversionError);
-                if (onError && conversionError instanceof Error) {
-                  onError(conversionError);
-                }
-              }
-            },
-            (fallbackError) => {
-              console.error('Fallback query also failed:', fallbackError);
-              if (onError) onError(fallbackError);
-            }
-          );
-        } catch (fallbackSetupError) {
-          console.error('Error setting up fallback query:', fallbackSetupError);
-          if (onError && fallbackSetupError instanceof Error) {
-            onError(fallbackSetupError);
-          }
-        }
-
         if (onError) onError(error);
       }
     );
@@ -274,5 +240,34 @@ export const subscribeToPublishedCourses = (
     console.error('Error setting up courses subscription:', error);
     if (onError && error instanceof Error) onError(error);
     return () => {};
+  }
+};
+
+// Check if user has reached monthly course creation limit (5 per month)
+export const checkMonthlyCourseLimitReached = async (userId: string): Promise<{ limitReached: boolean; count: number; limit: number }> => {
+  try {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const startTimestamp = Timestamp.fromDate(startOfMonth);
+    
+    const coursesCollection = collection(db, COURSES_COLLECTION);
+    const q = query(
+      coursesCollection,
+      where('createdBy', '==', userId),
+      where('createdAt', '>=', startTimestamp)
+    );
+    
+    const querySnapshot = await getDocs(q);
+    const count = querySnapshot.size;
+    const limit = 5;
+    
+    return {
+      limitReached: count >= limit,
+      count,
+      limit
+    };
+  } catch (error) {
+    console.error('Error checking monthly course limit:', error);
+    throw error;
   }
 };
