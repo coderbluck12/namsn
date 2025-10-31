@@ -101,13 +101,14 @@ const Hero = () => (
           transition={{ duration: 0.8, delay: 0.4 }}
           className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 pt-4"
         >
-          <motion.button
+          <motion.a
+            href="/auth/register"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
             className="px-10 py-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl hover:shadow-2xl transform transition-all duration-300 font-semibold text-xl"
           >
-            Pay Dues Now
-          </motion.button>
+            Join Now
+          </motion.a>
           
           <motion.a
             href="/auth/register"

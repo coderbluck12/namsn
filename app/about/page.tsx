@@ -1,55 +1,56 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { GraduationCap, Users, BookOpen, Award, Target, Eye, Heart, Mail, Phone, MapPin } from 'lucide-react';
 
 // Lecturer data with fallback photos
 const lecturers = [
   {
     id: 1,
-    name: 'Prof. Adewale Johnson',
-    title: 'Head of Department',
-    specialization: 'Pure Mathematics',
+    name: 'Prof. Olajuwon Bakai',
+    title: 'Professor',
+    specialization: 'Applied Mathematics',
     email: 'adewale.johnson@university.edu',
     image: '/placeholder-lecturer.jpg',
   },
   {
     id: 2,
-    name: 'Dr. Chioma Okonkwo',
-    title: 'Senior Lecturer',
-    specialization: 'Applied Mathematics',
+    name: 'Prof. Adeniran Olushola',
+    title: 'Professor',
+    specialization: 'Algebra',
     email: 'chioma.okonkwo@university.edu',
     image: '/placeholder-lecturer.jpg',
   },
   {
     id: 3,
-    name: 'Dr. Ibrahim Musa',
-    title: 'Lecturer I',
+    name: 'Dr. Ilojide Emmanuel',
+    title: 'Head Of Department',
     specialization: 'Mathematical Statistics',
     email: 'ibrahim.musa@university.edu',
     image: '/placeholder-lecturer.jpg',
   },
   {
     id: 4,
-    name: 'Dr. Funmilayo Adeyemi',
-    title: 'Lecturer I',
-    specialization: 'Numerical Analysis',
+    name: 'Prof. A.A.A Agboola',
+    title: 'Professor',
+    specialization: 'Algebra',
     email: 'funmilayo.adeyemi@university.edu',
     image: '/placeholder-lecturer.jpg',
   },
   {
     id: 5,
-    name: 'Dr. Mohammed Bello',
-    title: 'Lecturer II',
+    name: 'Dr. Yusuf Abdullahi',
+    title: 'Senior Lecturer',
     specialization: 'Differential Equations',
     email: 'mohammed.bello@university.edu',
     image: '/placeholder-lecturer.jpg',
   },
   {
     id: 6,
-    name: 'Dr. Grace Eze',
-    title: 'Lecturer II',
-    specialization: 'Mathematical Modeling',
+    name: 'Prof. Osinuga Idowu',
+    title: 'Professor',
+    specialization: 'Optimization',
     email: 'grace.eze@university.edu',
     image: '/placeholder-lecturer.jpg',
   },
@@ -88,8 +89,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-2">
-              <GraduationCap className="h-8 w-8 text-indigo-600" />
-              <span className="text-xl font-bold text-gray-900">Mathematics Dept</span>
+              <Image src="/namsn.png" alt="Logo" width={52} height={52} />
             </Link>
             <Link
               href="/"
@@ -100,50 +100,6 @@ export default function AboutPage() {
           </div>
         </div>
       </nav>
-
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-20">
-        <div className="absolute inset-0 bg-black opacity-10"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Department of Mathematics
-          </h1>
-          <p className="text-xl md:text-2xl text-indigo-100 max-w-3xl mx-auto mb-8">
-            Empowering minds through mathematical excellence and innovation
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/auth/register"
-              className="px-8 py-3 bg-white text-indigo-600 rounded-lg font-semibold hover:bg-gray-100 transition-all shadow-lg"
-            >
-              Join Us
-            </Link>
-            <a
-              href="#contact"
-              className="px-8 py-3 bg-transparent border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition-all"
-            >
-              Contact Us
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-full mb-4">
-                  <stat.icon className="h-8 w-8 text-indigo-600" />
-                </div>
-                <div className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</div>
-                <div className="text-gray-600">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* About Section */}
       <section className="py-20 bg-gray-50">
