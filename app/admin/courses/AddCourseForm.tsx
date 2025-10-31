@@ -18,8 +18,7 @@ const COURSE_CATEGORIES = [
   'Mobile Development',
   'Data Science',
   'Design',
-  'Business',
-  'Marketing',
+  'Mathematics',
   'Other'
 ] as const;
 
