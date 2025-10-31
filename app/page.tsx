@@ -668,7 +668,6 @@ const Footer = () => (
           <div className="space-y-2 text-gray-400">
             <p>support@namsnfunaab.com</p>
             <p>+234 812 345 6789</p>
-            <p>123 Education Ave, Academic City</p>
           </div>
         </div>
       </div>
