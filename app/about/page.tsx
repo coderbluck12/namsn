@@ -258,9 +258,9 @@ export default function AboutPage() {
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Visit Us</h3>
                   <p className="text-gray-600">
                     Department of Mathematics<br />
-                    Faculty of Science<br />
-                    University Campus, Main Building<br />
-                    City, State, Nigeria
+                    College of Physical Sciences<br />
+                    Federal University of Agriculture<br />
+                    Abeokuta, Ogun State, Nigeria
                   </p>
                 </div>
               </div>
@@ -283,8 +283,8 @@ export default function AboutPage() {
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Email Us</h3>
                   <p className="text-gray-600">
-                    info@mathematics.edu.ng<br />
-                    admissions@mathematics.edu.ng
+                    info@mathematics.funaab.edu.ng<br />
+                    admissions@mathematics.funaab.edu.ng
                   </p>
                 </div>
               </div>
