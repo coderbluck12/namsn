@@ -278,8 +278,8 @@ export default function AboutPage() {
               >
                 <div className="relative h-64 bg-gradient-to-br from-indigo-100 to-purple-100 overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-32 h-32 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <Image src={lecturer.image} alt={lecturer.name} width={128} height={128} />
+                    <div className="w-32 h-32 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden">
+                    <Image src={lecturer.image} alt={lecturer.name} width={128} height={128} className="w-full h-full object-cover" />
                     </div>
                   </div>
                 </div>
