@@ -267,7 +267,7 @@ export default function AboutPage() {
               Meet Our Department Lecturers
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Our distinguished faculty members are dedicated to excellence in teaching and groundbreaking research.
+              Our distinguished department lecturers are dedicated to excellence in teaching and groundbreaking research.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
