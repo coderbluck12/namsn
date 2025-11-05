@@ -36,18 +36,66 @@ const lecturers = [
     title: 'Professor',
     specialization: 'Fuzzy Algebra',
     email: 'funmilayo.adeyemi@university.edu',
-    image: '/agboola.jpg',
+    image: '/avatar.png',
   },
   {
     id: 5,
+    name: 'Prof. Oguntuase James',
+    title: 'Professor',
+    specialization: 'Analysis',
+    email: 'adewale.johnson@university.edu',
+    image: '/avatar.png',
+  },
+  {
+    id: 6,
     name: 'Prof. Osinuga Idowu',
     title: 'Professor',
     specialization: 'Optimization',
     email: 'grace.eze@university.edu',
-    image: '/idowu.jpg',
+    image: '/avatar.png',
   },
   {
-    id: 6,
+    id: 7,
+    name: 'Dr. Adeleke Emmanuel',
+    title: 'Senior Lecturer',
+    specialization: 'Mathematical Modelling',
+    email: 'adewale.johnson@university.edu',
+    image: '/avatar.png',
+  },
+  {
+    id: 8,
+    name: 'Dr. Ogunsola Olufemi',
+    title: 'Lecturer I',
+    specialization: 'Applied Mathematics',
+    email: 'adewale.johnson@university.edu',
+    image: '/ogunsola.jpg',
+  },
+  {
+    id: 9,
+    name: 'Dr. Raji Tayo',
+    title: 'Senior Lecturer',
+    specialization: 'Numerical Analysis',
+    email: 'adewale.johnson@university.edu',
+    image: '/avatar.png',
+  },
+  {
+    id: 10,
+    name: 'Dr. Fagbemiro Olalekan',
+    title: 'Senior Lecturer',
+    specialization: 'Applied Mathematics',
+    email: 'adewale.johnson@university.edu',
+    image: '/avatar.png',
+  },
+  {
+    id: 11,
+    name: 'Dr. Adeyanju Adedotun',
+    title: 'Lecturer I',
+    specialization: 'O.D.E',
+    email: 'adewale.johnson@university.edu',
+    image: '/avatar.png',
+  },
+  {
+    id: 12,
     name: 'Dr. Yusuf Abdullahi',
     title: 'Senior Lecturer',
     specialization: 'Complex Analysis',
@@ -55,15 +103,15 @@ const lecturers = [
     image: '/yusuf.jpg',
   },
   {
-    id: 7,
+    id: 13,
     name: 'Dr. Adams Oluwasegun',
     title: 'Senior Lecturer',
     specialization: 'Complex Analysis',
     email: 'mohammed.bello@university.edu',
-    image: '/yusuf.jpg',
+    image: '/adams.jpg',
   },
   {
-    id: 8,
+    id: 14,
     name: 'Dr. Francis Nkwuda',
     title: 'Lecturer II',
     specialization: 'Mathematical Analysis',
@@ -222,7 +270,7 @@ export default function AboutPage() {
               Our distinguished faculty members are dedicated to excellence in teaching and groundbreaking research.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {lecturers.map((lecturer) => (
               <div
                 key={lecturer.id}
@@ -231,7 +279,7 @@ export default function AboutPage() {
                 <div className="relative h-64 bg-gradient-to-br from-indigo-100 to-purple-100 overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-32 h-32 bg-white rounded-full flex items-center justify-center shadow-lg">
-                      <GraduationCap className="h-16 w-16 text-indigo-600" />
+                    <Image src={lecturer.image} alt={lecturer.name} width={128} height={128} />
                     </div>
                   </div>
                 </div>
