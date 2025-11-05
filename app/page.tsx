@@ -646,8 +646,8 @@ const Footer = () => (
         <div>
           <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
           <div className="space-y-2">
-            {['Home', 'Features', 'Team', 'Events'].map((link) => (
-              <a key={link} href={`#${link.toLowerCase()}`} className="block text-gray-400 hover:text-white transition-colors">
+            {['Home', 'About', 'Features', 'Team', 'Events'].map((link) => (
+              <a key={link} href={`/${link.toLowerCase()}`} className="block text-gray-400 hover:text-white transition-colors">
                 {link}
               </a>
             ))}
