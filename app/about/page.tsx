@@ -12,7 +12,7 @@ const lecturers = [
     title: 'Professor',
     specialization: 'Applied Mathematics',
     email: 'adewale.johnson@university.edu',
-    image: '/placeholder-lecturer.jpg',
+    image: '/olajuwon.jpg',
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const lecturers = [
     title: 'Professor',
     specialization: 'Algebra',
     email: 'chioma.okonkwo@university.edu',
-    image: '/placeholder-lecturer.jpg',
+    image: '/adeniran.jpg',
   },
   {
     id: 3,
@@ -28,31 +28,47 @@ const lecturers = [
     title: 'Head Of Department',
     specialization: 'Mathematical Statistics',
     email: 'ibrahim.musa@university.edu',
-    image: '/placeholder-lecturer.jpg',
+    image: '/ilojide.jpg',
   },
   {
     id: 4,
     name: 'Prof. A.A.A Agboola',
     title: 'Professor',
-    specialization: 'Algebra',
+    specialization: 'Fuzzy Algebra',
     email: 'funmilayo.adeyemi@university.edu',
-    image: '/placeholder-lecturer.jpg',
+    image: '/agboola.jpg',
   },
   {
     id: 5,
-    name: 'Dr. Yusuf Abdullahi',
-    title: 'Senior Lecturer',
-    specialization: 'Differential Equations',
-    email: 'mohammed.bello@university.edu',
-    image: '/placeholder-lecturer.jpg',
-  },
-  {
-    id: 6,
     name: 'Prof. Osinuga Idowu',
     title: 'Professor',
     specialization: 'Optimization',
     email: 'grace.eze@university.edu',
-    image: '/placeholder-lecturer.jpg',
+    image: '/idowu.jpg',
+  },
+  {
+    id: 6,
+    name: 'Dr. Yusuf Abdullahi',
+    title: 'Senior Lecturer',
+    specialization: 'Complex Analysis',
+    email: 'mohammed.bello@university.edu',
+    image: '/yusuf.jpg',
+  },
+  {
+    id: 7,
+    name: 'Dr. Adams Oluwasegun',
+    title: 'Senior Lecturer',
+    specialization: 'Complex Analysis',
+    email: 'mohammed.bello@university.edu',
+    image: '/yusuf.jpg',
+  },
+  {
+    id: 8,
+    name: 'Dr. Francis Nkwuda',
+    title: 'Lecturer II',
+    specialization: 'Mathematical Analysis',
+    email: 'grace.eze@university.edu',
+    image: '/francis.jpg',
   },
 ];
 
@@ -200,7 +216,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Meet Our Faculty
+              Meet Our Department Lecturers
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Our distinguished faculty members are dedicated to excellence in teaching and groundbreaking research.
