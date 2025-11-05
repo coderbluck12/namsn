@@ -106,7 +106,7 @@ const lecturers = [
     id: 13,
     name: 'Dr. Adams Oluwasegun',
     title: 'Senior Lecturer',
-    specialization: 'Complex Analysis',
+    specialization: 'O.D.E',
     email: 'mohammed.bello@university.edu',
     image: '/adams.jpg',
   },
