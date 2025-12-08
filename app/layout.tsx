@@ -28,6 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="monetag" content="ad38486263a67e5516563582765244b5"></meta>
+        <script src="https://quge5.com/88/tag.min.js" data-zone="191368" async data-cfasync="false"></script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
