@@ -354,7 +354,7 @@ export default function QuizRegisterPage() {
                                                 <div className="flex gap-3 mt-2">
                                                     <motion.button
                                                         type="button"
-                                                        onClick={() => setStep(1 as 1)}
+                                                        onClick={() => setStep(1)}
                                                         whileHover={{ scale: 1.02 }}
                                                         whileTap={{ scale: 0.98 }}
                                                         className="flex-none px-5 py-3.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-semibold hover:border-slate-300 hover:text-slate-900 transition-all duration-200 cursor-pointer bg-slate-50"
