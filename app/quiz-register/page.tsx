@@ -406,7 +406,7 @@ export default function QuizRegisterPage() {
                     transition={{ delay: 0.8 }}
                 >
                     Participants will be selected at random for a fair process. <br />
-                    Submitting this form bring you one step to being accepted.
+                    Submitting this form bring you one step closer to being accepted.
                 </motion.p>
             </div>
         </main>
